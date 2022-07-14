@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset = "utf-8"/>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1"/>
+        <title>Minesweeper</title>
+        <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel = "stylesheet">
+        <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <style type = "text/css">
+            #gameBoard {
+                border: 5px solid black;
+            }
+            body {
+                background-color: beige;
+            }
+            .textColor {
+                color: indigo;
+            }
+            .btn-outline-dark {
+                color: indigo;
+                border-color: indigo;
+            }
+        </style>
+    </head>
+    <body onload = "resetGame()">
+        <div class = "textColor text-center mt-3">
+            <h3 id = "title">Minesweeper</h3>
+        </div>
+        <div class = "position-absolute start-50 top-50 translate-middle">
+            <div id = "gameBoardHeader" class = "row justify-content-center">
+                <p id = "minesScore" class = "textColor text-center col fs-4 m-auto">minesScore</p>
+                <button onclick = "resetGame()" class = "my-1 btn btn-outline-dark col fs-4 rounded-pill">Reset</button>
+                <p id = "mainScore" class = "textColor text-center col fs-4 m-auto">mainScore</p>
+            </div>
+            <canvas id = "gameBoard" width = "600" height = "600"></canvas>
+        </div>
+        <script src = "script.js"></script>
+    </body>
+</html>
