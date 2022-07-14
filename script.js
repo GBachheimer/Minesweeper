@@ -10,13 +10,15 @@
 let gameUnit = 40;
 let minesScore = 0;
 let mainScore = 0;
-const allBombs = [{x: 0, y: 0}];
+const allBombs = [];
 const canvas = document.getElementById("gameBoard");
 const ctx = canvas.getContext("2d");
+const bombImg = new Image();
+bombImg.src = "bomb.png";
 
 function resetGame() {
     let bombsNr = Math.floor(Math.random() * 20) + 15;
-    ctx.fillStyle = "green";
+    document.getElementById("minesScore").innerHTML = bombsNr;
     for (let i = bombsNr; i > 0; --i) {
         generateBomb();
     }
@@ -30,7 +32,7 @@ function generateBomb() {
         yBomb = Math.floor(Math.random() * 15) * gameUnit;
     } while (checkCollision(xBomb, yBomb));
     allBombs.unshift({x: xBomb, y: yBomb});
-    ctx.fillRect(xBomb, yBomb, gameUnit, gameUnit);
+    ctx.drawImage(bombImg, xBomb, yBomb, 40, 40);
 }
 
 function checkCollision(xBomb, yBomb) {
@@ -43,7 +45,24 @@ function checkCollision(xBomb, yBomb) {
 }
 
 function generateNumbers() {
-    //verifica spatiul din jurul bombelor, pt fiecare spatiu verifica spatiul din jurul lui
-    //verifica sa nu fie deja un numar sau o bomba
-    //pune nr corespunzator bombelor gasite
+    for (let checkY = 0; checkY < 600; checkY += gameUnit) {
+        for (let checkX = 0; checkX < 600; checkX += gameUnit) {
+            let spiral = [{x: checkX - gameUnit, y: checkY - gameUnit}, {x: checkX, y: checkY - gameUnit}, {x: checkX + gameUnit, y: checkY - gameUnit},
+                          {x: checkX + gameUnit, y: checkY}, {x: checkX + gameUnit, y: checkY + gameUnit},
+                          {x: checkX, y: checkY + gameUnit}, {x: checkX - gameUnit, y: checkY + gameUnit},
+                          {x: checkX - gameUnit, y: checkY}];
+            let bombsFound = 0;
+            for (let j = 0; j < spiral.length; ++j) {
+                for (let i = 0; i < allBombs.length; ++i) {
+                    if (allBombs[i].x === spiral[j].x && allBombs[i].y === spiral[j].y) {
+                        ++bombsFound;
+                    }
+                }
+            }
+            ctx.font = "20px Arial";
+            centerTextX = gameUnit - 25;
+            centerTextY = gameUnit - 15;
+            ctx.fillText(bombsFound, checkX + centerTextX, checkY + centerTextY);
+        }
+    }
 }
